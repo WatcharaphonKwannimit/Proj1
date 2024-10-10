@@ -1,48 +1,58 @@
-# Python program to specify the file 
-# path in a tkinter file dialog 
-
-# Import the libraries tk, ttk, filedialog 
-import tkinter as tk 
-from tkinter import ttk 
-from tkinter import filedialog as fd 
-
-# Create a GUI app 
-app = tk.Tk() 
-
-# Specify the title and dimensions to app 
-app.title('Tkinter Dialog') 
-app.geometry('600x350') 
-
-# Create a textfield for putting the 
-# text extracted from file 
-text = tk.Text(app, height=12) 
-
-# Specify the location of textfield 
-text.grid(column=0, row=0, sticky='nsew') 
-
-# Create a function to open the file dialog 
+from Tkinter import *
 
 
-def open_text_file(): 
+def save(e,e1,e2):
+    open("text.txt","w").close()
+    text = e.get() + "\t" + e1.get() + "\t" +  e2.get() + "\t"
+    with open("text.txt", "a") as f:
+        f.write(text)
 
-	# Specify the file types 
-	filetypes = (('text files', '*.txt'), 
-				('All files', '*.*')) 
+def loadme(l,l2,l3):
+    f = open('text.txt','r')
+    line = f.readline()
+    la1,la2,la3 = line.split()
+    l.config(text=la1)
+    l2.config(text=la2)
+    l3.config(text=la3)
+    f.close()
 
-	# Show the open file dialog by specifying path 
-	f = fd.askopenfile(filetypes=filetypes, 
-					initialdir="D:/Downloads") 
+def main():
+    root = Tk()
+    c = Canvas(root,width=600)
+    c.pack(side = 'left',expand=1,fill=BOTH)
 
-	# Insert the text extracted from file in a textfield 
-	text.insert('1.0', f.readlines()) 
+    c2 = Canvas(c,width=600)
+    c2.pack(side = 'left',expand=1,fill=BOTH)
+    c3 = Canvas(c,width=600)
+    c3.pack(side = 'left',expand=1,fill=BOTH)
 
+    w1 = Label(c2, text="Controller value")
+    w1.pack()
+    e = Entry(c2)
+    e.pack()
+    w2 = Label(c2, text="Velocity")
+    w2.pack()
+    e1 = Entry(c2)
+    e1.pack()
+    w3 = Label(c2, text="Desired Heading")
+    w3.pack()
+    e2 = Entry(c2)
+    e2.pack()
+    toolbar = Frame(c2)
+    b = Button(toolbar, text="save", width=9, command=lambda:save(e,e1,e2))
+    b.pack(side=LEFT, padx=2, pady=2)
+    toolbar.pack(side=TOP, fill=X)
 
-# Create an open file button 
-open_button = ttk.Button(app, text='Open a File', 
-						command=open_text_file) 
+    l = Label(c3,text='',bg='red')
+    l.pack(side='left',expand=1,fill='x')
+    l2 = Label(c3,text='',bg='yellow')
+    l2.pack(side='left',expand=1,fill='x')
+    l3 = Label(c3,text='',bg='blue')
+    l3.pack(side='left',expand=1,fill='x')
 
-# Specify the button position on the app 
-open_button.grid(sticky='w', padx=250, pady=50) 
+    b2 = Button(c3,text='load',command=lambda:loadme(l,l2,l3))
+    b2.pack(fill='x')
+    root.mainloop()
 
-# Make infinite loop for displaying app on the screen 
-app.mainloop() 
+if __name__ == '__main__':
+    main()
