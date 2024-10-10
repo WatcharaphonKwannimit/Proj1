@@ -1,48 +1,48 @@
-from tkinter import *
-import cv2
-from PIL import Image, ImageTk
+# Python program to specify the file 
+# path in a tkinter file dialog 
 
-# สร้าง VideoCapture สำหรับกล้องตัวที่ 0 และ 1
-cap1 = cv2.VideoCapture(0) 
+# Import the libraries tk, ttk, filedialog 
+import tkinter as tk 
+from tkinter import ttk 
+from tkinter import filedialog as fd 
 
-# ตรวจสอบว่ากล้องเปิดอยู่หรือไม่
-if not cap1.isOpened():
-    print("Error: Could not open one or both cameras.")
-    exit()
+# Create a GUI app 
+app = tk.Tk() 
 
-width, height = 800, 600
-cap1.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-cap1.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+# Specify the title and dimensions to app 
+app.title('Tkinter Dialog') 
+app.geometry('600x350') 
 
-app = Tk()
-app.bind('<Escape>', lambda e: app.quit())
+# Create a textfield for putting the 
+# text extracted from file 
+text = tk.Text(app, height=12) 
 
-# สร้าง Label สำหรับกล้องสองตัว
-label_widget1 = Label(app)
-label_widget1.pack(side=LEFT)
+# Specify the location of textfield 
+text.grid(column=0, row=0, sticky='nsew') 
 
-def open_camera1(): 
-    ret, frame1 = cap1.read()
-    if ret:
-        # แปลงสี
-        opencv_image1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGBA)
-        captured_image1 = Image.fromarray(opencv_image1)
-        photo_image1 = ImageTk.PhotoImage(image=captured_image1)
-        
-        label_widget1.photo_image = photo_image1
-        label_widget1.configure(image=photo_image1)
-
-    # เรียกฟังก์ชันซ้ำทุก 10 มิลลิวินาที
-    label_widget1.after(10, open_camera1)
-
-# สร้างปุ่มเพื่อเปิดกล้อง
-button1 = Button(app, text="Open Camera 1", command=open_camera1)
-button1.pack(side=LEFT)
+# Create a function to open the file dialog 
 
 
+def open_text_file(): 
 
-# สร้างลูปไม่รู้จบเพื่อแสดงแอปในหน้าจอ
-app.mainloop()
+	# Specify the file types 
+	filetypes = (('text files', '*.txt'), 
+				('All files', '*.*')) 
 
-# ปล่อยการเชื่อมต่อกล้องเมื่อปิดโปรแกรม
-cap1.release()
+	# Show the open file dialog by specifying path 
+	f = fd.askopenfile(filetypes=filetypes, 
+					initialdir="D:/Downloads") 
+
+	# Insert the text extracted from file in a textfield 
+	text.insert('1.0', f.readlines()) 
+
+
+# Create an open file button 
+open_button = ttk.Button(app, text='Open a File', 
+						command=open_text_file) 
+
+# Specify the button position on the app 
+open_button.grid(sticky='w', padx=250, pady=50) 
+
+# Make infinite loop for displaying app on the screen 
+app.mainloop() 
