@@ -41,7 +41,7 @@ button3.pack(side=LEFT)
 # จัดวางปุ่ม
 button1.place(x=10, y=300)
 button2.place(x=10, y=350, width=80)
-button3.place(x=500, y=600, width=100)
+button3.place(x=1000, y=350, width=100)
 
 # สร้างลูปไม่รู้จบเพื่อแสดงแอปในหน้าจอ
 app.mainloop()
