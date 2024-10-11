@@ -1,2 +1,3 @@
 *.avi
 _pycache_/*
+captures/*
