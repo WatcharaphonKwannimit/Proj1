@@ -1,58 +1,15 @@
-from Tkinter import *
+import tkinter as tk
+from tkinter import filedialog
+def import_file():
+    file_path = filedialog.askopenfilename(title="Select a file", filetypes=[("image files", "*.png *.jpg"), ("All files", "*.*")])
+    if file_path:
+        # Process the selected file (you can replace this with your own logic)
+        print("Selected file", file_path)
 
-
-def save(e,e1,e2):
-    open("text.txt","w").close()
-    text = e.get() + "\t" + e1.get() + "\t" +  e2.get() + "\t"
-    with open("text.txt", "a") as f:
-        f.write(text)
-
-def loadme(l,l2,l3):
-    f = open('text.txt','r')
-    line = f.readline()
-    la1,la2,la3 = line.split()
-    l.config(text=la1)
-    l2.config(text=la2)
-    l3.config(text=la3)
-    f.close()
-
-def main():
-    root = Tk()
-    c = Canvas(root,width=600)
-    c.pack(side = 'left',expand=1,fill=BOTH)
-
-    c2 = Canvas(c,width=600)
-    c2.pack(side = 'left',expand=1,fill=BOTH)
-    c3 = Canvas(c,width=600)
-    c3.pack(side = 'left',expand=1,fill=BOTH)
-
-    w1 = Label(c2, text="Controller value")
-    w1.pack()
-    e = Entry(c2)
-    e.pack()
-    w2 = Label(c2, text="Velocity")
-    w2.pack()
-    e1 = Entry(c2)
-    e1.pack()
-    w3 = Label(c2, text="Desired Heading")
-    w3.pack()
-    e2 = Entry(c2)
-    e2.pack()
-    toolbar = Frame(c2)
-    b = Button(toolbar, text="save", width=9, command=lambda:save(e,e1,e2))
-    b.pack(side=LEFT, padx=2, pady=2)
-    toolbar.pack(side=TOP, fill=X)
-
-    l = Label(c3,text='',bg='red')
-    l.pack(side='left',expand=1,fill='x')
-    l2 = Label(c3,text='',bg='yellow')
-    l2.pack(side='left',expand=1,fill='x')
-    l3 = Label(c3,text='',bg='blue')
-    l3.pack(side='left',expand=1,fill='x')
-
-    b2 = Button(c3,text='load',command=lambda:loadme(l,l2,l3))
-    b2.pack(fill='x')
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root = tk.Tk()
+root.title('Import File Example')
+# Create an &quot;Import File&quot; button
+import_button = tk.Button(root, text='Import File', command=import_file)
+import_button.pack(pady=100)
+# Run the Tkinter event loop
+root.mainloop()
